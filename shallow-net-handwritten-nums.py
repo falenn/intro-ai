@@ -21,7 +21,10 @@ print(F"training img 1[{y_train[1]}]: {X_train[1]}")
 # plot some of these - save to disk to see
 plt.figure(figsize=(5,5))
 for k in range(12):
-  if not os.path.exists("figs/fig_%s.png" % k):
-    plt.subplot(3,4, k+1)
-    plt.savefig("figs/fig_%s.png" % k)
+  plt.subplot(3,4, k+1)
+  plt.imshow(X_train[k], cmap='Greys')
+  plt.axis('off')
+plt.tight_layout()
+plt.savefig("figs/figs.png")
+
 
