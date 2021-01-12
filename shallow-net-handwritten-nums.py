@@ -126,9 +126,10 @@ print()
 print(F"{probs}")
 
 plt.figure(figsize=(5,5))
-plt.subplot(3,4, 1)
-plt.imshow(X_valid[0], cmap='Greys')
-plt.axis('off')
+for k in range(12):
+  plt.subplot(3,4, k+1)
+  plt.imshow(X_valid[k], cmap='Greys')
+  plt.axis('off')
 plt.show()
 plt.savefig("figs/x_valid0.png")
 
