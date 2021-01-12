@@ -115,23 +115,25 @@ score = loaded_model.evaluate(X_validrs, y_valid, verbose=0)
 print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
 # now predict one of them
-X_0 = X_valid[0]
-X_0 = X_0.reshape(1, 784).astype('float32')
-X_0 /= 255
+for k in range(12):
+  X_0 = X_valid[k]
+  X_0 = X_0.reshape(1, 784).astype('float32')
+  X_0 /= 255
 
-probs = loaded_model.predict(X_0)
-np.set_printoptions(precision=2)  
-print(F"What is this? {X_valid[0]}")
-print()
-print(F"{probs}")
+  probs = loaded_model.predict(X_0)
+  np.set_printoptions(precision=2)  
+  #print(F"What is this? {X_valid[1]}")
+  print()
+  print(F"[{k}]:{np.argmax(probs)} {probs}")
 
 plt.figure(figsize=(5,5))
 for k in range(12):
   plt.subplot(3,4, k+1)
   plt.imshow(X_valid[k], cmap='Greys')
   plt.axis('off')
+plt.tight_layout()
 plt.show()
-plt.savefig("figs/x_valid0.png")
+plt.savefig("figs/x_valid.png")
 
 
 
