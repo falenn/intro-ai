@@ -29,6 +29,7 @@ for k in range(12):
   plt.axis('off')
 plt.tight_layout()
 plt.savefig("figs/figs.png")
+plt.show()
 
 # Render a validation image
 print(F"validation img 0[{y_valid[0]}: {X_valid[0]}")
@@ -124,6 +125,12 @@ print(F"What is this? {X_valid[0]}")
 print()
 print(F"{probs}")
 
+plt.figure(figsize=(5,5))
+plt.subplot(3,4, 1)
+plt.imshow(X_valid[0], cmap='Greys')
+plt.axis('off')
+plt.show()
+plt.savefig("figs/x_valid0.png")
 
 
 
