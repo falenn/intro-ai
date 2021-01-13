@@ -23,8 +23,8 @@ print(F"training img 0[{y_train[0]}]: {X_train[0]}")
 
 # plot some of these - save to disk to see
 plt.figure(figsize=(5,5))
-for k in range(12):
-  plt.subplot(3,4, k+1)
+for k in range(36):
+  plt.subplot(6,6, k+1)
   plt.imshow(X_train[k], cmap='Greys')
   plt.axis('off')
 plt.tight_layout()
@@ -60,8 +60,9 @@ def train(train, valid):
   model = Sequential()
   # add a hidden layer - add sigmoid-type artificial neurons in general-purpose, fully-connected arrangement (a.k.a, Dense)
   # This includes specifying the input shape of 784, - 1d array.
-  model.add(Dense(64, activation='sigmoid', input_shape=(784,)))
-
+  model.add(Dense(64, activation='relu', input_shape=(784,)))
+  model.add(Dense(64, activation='relu', input_shape=(784,)))
+  model.add(Dense(32, activation='relu', input_shape=(784,)))
   # Add next layer - our output layer with 10 aritifcial neurons of type softmax (to map to labels) using cooresponding probabilities
   model.add(Dense(10, activation='softmax'))
 
@@ -115,7 +116,7 @@ score = loaded_model.evaluate(X_validrs, y_valid, verbose=0)
 print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
 # now predict one of them
-for k in range(12):
+for k in range(36):
   X_0 = X_valid[k]
   X_0 = X_0.reshape(1, 784).astype('float32')
   X_0 /= 255
@@ -127,8 +128,8 @@ for k in range(12):
   print(F"[{k}]:{np.argmax(probs)} {probs}")
 
 plt.figure(figsize=(5,5))
-for k in range(12):
-  plt.subplot(3,4, k+1)
+for k in range(36):
+  plt.subplot(6,6, k+1)
   plt.imshow(X_valid[k], cmap='Greys')
   plt.axis('off')
 plt.tight_layout()
