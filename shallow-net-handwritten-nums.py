@@ -8,6 +8,7 @@ from keras.optimizers import SGD
 from keras.models import model_from_yaml
 from matplotlib import pyplot as plt
 import numpy as np
+import math
 
 large_width = 400
 np.set_printoptions(linewidth=large_width)
@@ -63,6 +64,7 @@ def train(train, valid):
   model.add(Dense(64, activation='relu', input_shape=(784,)))
   model.add(Dense(64, activation='relu', input_shape=(784,)))
   model.add(Dense(32, activation='relu', input_shape=(784,)))
+  model.add(Dense(16, activation='relu', input_shape=(392,)))
   # Add next layer - our output layer with 10 aritifcial neurons of type softmax (to map to labels) using cooresponding probabilities
   model.add(Dense(10, activation='softmax'))
 
@@ -115,21 +117,26 @@ y_valid = keras.utils.to_categorical(y_valid, 10)
 score = loaded_model.evaluate(X_validrs, y_valid, verbose=0)
 print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
+Y_ans = np.zeros(shape=(8,8),dtype=int)
 # now predict one of them
-for k in range(36):
+for k in range(64):
   X_0 = X_valid[k]
   X_0 = X_0.reshape(1, 784).astype('float32')
   X_0 /= 255
 
   probs = loaded_model.predict(X_0)
-  np.set_printoptions(precision=2)  
+  #np.set_printoptions(precision=2)  
   #print(F"What is this? {X_valid[1]}")
-  print()
-  print(F"[{k}]:{np.argmax(probs)} {probs}")
+  #print(F"[{k}]:{np.argmax(probs)} {probs}")
+  row = k % 8
+  col = math.floor(k / 8)
+  #print(F"Row:{row}, Col:{col}")
+  Y_ans[col,row] = np.argmax(probs)  
+print(Y_ans)
 
 plt.figure(figsize=(5,5))
-for k in range(36):
-  plt.subplot(6,6, k+1)
+for k in range(64):
+  plt.subplot(8,8, k+1)
   plt.imshow(X_valid[k], cmap='Greys')
   plt.axis('off')
 plt.tight_layout()
