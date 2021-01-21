@@ -61,15 +61,21 @@ def train(train, valid):
   model = Sequential()
   # add a hidden layer - add sigmoid-type artificial neurons in general-purpose, fully-connected arrangement (a.k.a, Dense)
   # This includes specifying the input shape of 784, - 1d array.
-  model.add(Dense(64, activation='relu', input_shape=(784,)))
-  model.add(Dense(64, activation='relu', input_shape=(784,)))
-  model.add(Dense(32, activation='relu', input_shape=(784,)))
-  model.add(Dense(16, activation='relu', input_shape=(392,)))
+  model.add(Dense(512, activation='relu', input_shape=(784,)))
+  model.add(Dense(128, activation='relu'))
+  model.add(Dense(128, activation='relu'))
+  #model.add(Dense(128, activation='relu', input_shape=(784,)))
+
   # Add next layer - our output layer with 10 aritifcial neurons of type softmax (to map to labels) using cooresponding probabilities
   model.add(Dense(10, activation='softmax'))
 
+  # A good optimizer explanation: https://www.kaggle.com/residentmario/keras-optimizers
   # Compile the model
-  model.compile(loss='mean_squared_error', optimizer='adam')
+  #model.compile(loss='mean_squared_error', optimizer='adam')
+  model.compile(
+    loss='categorical_crossentropy',
+    optimizer='adam',
+    metrics=['accuracy'])
 
 
   #---- Training ----
@@ -78,7 +84,7 @@ def train(train, valid):
   # after each epoch, validation occurs.  we should see validation improve over time
   model.fit(X_train, y_train, 
 	batch_size=128, 
-	epochs=10, 
+	epochs=40, 
 	verbose=1, 
 	validation_data=(X_valid, y_valid))
 
@@ -143,6 +149,7 @@ plt.tight_layout()
 plt.show()
 plt.savefig("figs/x_valid.png")
 
-
+# print out info on the model
+loaded_model.summary()
 
 
