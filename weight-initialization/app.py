@@ -53,6 +53,7 @@ def main():
   model = buildModel(n_dense, n_input, b_init, w_init)
 
   a = model.predict(x)
+  plt.clf()
   plt.hist(np.transpose(a))
   plt.savefig('glorot_normal_hist.png',bbox_inches='tight')
 
