@@ -44,7 +44,7 @@ def main():
   a = model.predict(x)
 
   # plot will show strong bias on x for resulting values of y with large, initial z outputs
-  graph = plt.hist(np.transpose(a))
+  _ = plt.hist(np.transpose(a))
   plt.savefig('init_saturated_bias_and_weights_hist.png', bbox_inches='tight')
 
   # Fixing activiations for more normal distribution
@@ -54,7 +54,7 @@ def main():
 
   a = model.predict(x)
   plt.clf()
-  plt.hist(np.transpose(a))
+  _ = plt.hist(np.transpose(a))
   plt.savefig('glorot_normal_hist.png',bbox_inches='tight')
 
 
