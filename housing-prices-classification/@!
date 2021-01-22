@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+from keras.datasets import boston_housing
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+from keras.layers.normalization import BatchNormalization
+
+
+# Load Data
+(X_train, y_train), (X_valid, y_valid) = boston_housing.load_data()
+print(F"Sample Data training dim: {X_train.ndim}")
+print(F"Sample taining record: {X_train[0]}, {y_train[0]}")
+
+print(F"Sample training data")
+for k in range(12):
+  print(F"{y_train[k]: {X_train[k]}")
+

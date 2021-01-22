@@ -3,7 +3,8 @@ import os.path
 import keras
 from keras.datasets import mnist  # handwriting set from NIST
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
+from keras.layers.normalization import BatchNormalization
 from keras.optimizers import SGD
 from keras.models import model_from_yaml
 from matplotlib import pyplot as plt
@@ -62,8 +63,12 @@ def train(train, valid):
   # add a hidden layer - add sigmoid-type artificial neurons in general-purpose, fully-connected arrangement (a.k.a, Dense)
   # This includes specifying the input shape of 784, - 1d array.
   model.add(Dense(512, activation='relu', input_shape=(784,)))
+  model.add(BatchNormalization())
   model.add(Dense(128, activation='relu'))
+  model.add(BatchNormalization())
   model.add(Dense(128, activation='relu'))
+  model.add(BatchNormalization())
+  model.add(Dropout(0.4))
   #model.add(Dense(128, activation='relu', input_shape=(784,)))
 
   # Add next layer - our output layer with 10 aritifcial neurons of type softmax (to map to labels) using cooresponding probabilities
@@ -84,7 +89,7 @@ def train(train, valid):
   # after each epoch, validation occurs.  we should see validation improve over time
   model.fit(X_train, y_train, 
 	batch_size=128, 
-	epochs=40, 
+	epochs=20, 
 	verbose=1, 
 	validation_data=(X_valid, y_valid))
 

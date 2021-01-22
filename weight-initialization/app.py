@@ -58,6 +58,9 @@ def main():
   plt.savefig('glorot_normal_hist.png',bbox_inches='tight')
 
 
+  
+
+
 if __name__ == "__main__":
     main()
 
