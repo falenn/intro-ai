@@ -47,8 +47,9 @@ if not os.path.exists('model.yaml'):
   # linear output to help predict a price (a continuous variable) - a non- bucketed or sigmoid value 
   model.add(Dense(1, activation='linear'))
 
-  model.compile(loss='mean_squared_error', optimizer='adam',metrics=['accuracy'])
-  model.summary()
+  model.compile(loss='mean_squared_error', 
+	optimizer='adam', 
+	metrics=['accuracy'])
 
   # Train the model
   history = model.fit(X_train, y_train,
@@ -74,7 +75,8 @@ else:
   yaml_file.close()
   model.compile(loss='mean_squared_error',optimizer='adam')
 
-  
+model.summary()
+
 # predict - grab record and reshape to input dim [1, 13]
 out = model.predict(np.reshape(X_valid[42], [1, 13]))
 print(F"predict value for {X_valid[42]}")
