@@ -7,6 +7,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.layers.normalization import BatchNormalization
 from keras.models import model_from_yaml
+from keras.callbacks import TensorBoard
 
 # Boston housing prices in 1970
 # About the data
@@ -51,12 +52,18 @@ if not os.path.exists('model.yaml'):
 	optimizer='adam', 
 	metrics=['accuracy'])
 
+  # load tensorboard app
+  # before building the model, run tensorboard 
+  # tensorboard --logdir='logs/deep-net' --port 8080
+  tensorboard = TensorBoard('logs/deep-net')
+ 
   # Train the model
   history = model.fit(X_train, y_train,
 	batch_size=8,
 	epochs=22,
 	verbose=1,
-	validation_data=(X_valid, y_valid))
+	validation_data=(X_valid, y_valid),
+        callbacks=[tensorboard])
 
   # plot training rates
   Plots.show_keys(history)  
