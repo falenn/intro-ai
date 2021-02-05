@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 import os.path
-import modules.plots as Plots
+import modules.trainer as trainer
+import modules.modelUtil as mu
 import keras
+import math
+import numpy as np
+from matplotlib import pyplot as plt
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
@@ -31,49 +35,15 @@ model = Sequential()
 
 # train if model doesn't exist
 if not os.path.exists('model.yaml'):
-  model.add(Conv2D(32, kernel_size=(3,3), activation='relu', input_shape=(28, 28,1)))
-  model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
-  # pool to reduce complexity - 
-  model.add(MaxPooling2D(pool_size=(2,2)))
-  # randomize path backprop tuning for training balance to prevent over-fit
-  model.add(Dropout(0.25))
-  # convey many n-dimensional into 1-dimensional aray
-  model.add(Flatten())
-  # dense hidden
-  model.add(Dense(128, activation='relu'))
-  model.add(Dropout(0.5))
-  # output for categorial invariant
-  model.add(Dense(n_classes, activation='softmax'))
-
-  model.compile(
-    loss='categorical_crossentropy',
-    optimizer='adam',
-    metrics=['accuracy'])
-
-  history = model.fit(X_train, y_train,
-    batch_size=128,
-    epochs=20,
-    verbose=1,
-    validation_data=(X_valid,y_valid))
-
-  # plot training 
-  plots.show_keys(history)
-  plots.plot_accuracy(histoy)
-  plots.plot_loss(history)
-  
-  # save model
-  with open('model.yaml', 'w') as yaml_file:
-    yaml_file.write(model.to_yaml())
-  model.save_weights('model.h5')
-
+  model = trainer(X_train, y_train, X_valid, y_valid, n_classes)
+  mu.saveModel(model, 'model.yaml', 'model.h5')
 else:
   # load model
-  yaml_file = open('model.yaml', 'r')
-  model = model_from_yaml(yaml_file.read())
-  yaml_file.close()
-  
+  model = mu.loadModel('model.yaml','model.h5')
+ 
 model.summary()
 
+# do preditions
 X_0 = X_valid[0]
 X_0 = X_0.reshape(28, 28).astype('float32')
 X_0 /= 255
